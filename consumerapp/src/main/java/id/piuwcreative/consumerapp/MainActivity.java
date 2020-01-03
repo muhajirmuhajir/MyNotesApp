@@ -1,4 +1,4 @@
-package id.piuwcreative.mynotesapp;
+package id.piuwcreative.consumerapp;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,12 +22,11 @@ import com.google.android.material.snackbar.Snackbar;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-import id.piuwcreative.mynotesapp.adapter.NoteAdapter;
-import id.piuwcreative.mynotesapp.db.NoteHelper;
-import id.piuwcreative.mynotesapp.entity.Note;
-import id.piuwcreative.mynotesapp.helper.MappingHelper;
+import id.piuwcreative.consumerapp.adapter.NoteAdapter;
+import id.piuwcreative.consumerapp.entity.Note;
+import id.piuwcreative.consumerapp.helper.MappingHelper;
 
-import static id.piuwcreative.mynotesapp.db.DatabaseContract.NoteColumns.CONTENT_URI;
+import static id.piuwcreative.consumerapp.db.DatabaseContract.NoteColumns.CONTENT_URI;
 
 public class MainActivity extends AppCompatActivity implements LoadNotesCallback {
     private RecyclerView rvNotes;
@@ -35,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements LoadNotesCallback
     private NoteAdapter adapter;
     private static final String EXTRA_STATE = "EXTRA_STATE";
     private FloatingActionButton fabAdd;
-    private NoteHelper noteHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +61,10 @@ public class MainActivity extends AppCompatActivity implements LoadNotesCallback
             }
         });
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Consumer Notes");
+        }
+
         HandlerThread handlerThread = new HandlerThread("DataObserver");
         handlerThread.start();
         Handler handler = new Handler(handlerThread.getLooper());
@@ -81,11 +84,7 @@ public class MainActivity extends AppCompatActivity implements LoadNotesCallback
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        noteHelper.close();
-    }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
